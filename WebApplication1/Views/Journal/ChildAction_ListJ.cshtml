@@ -1,0 +1,54 @@
+﻿@model IEnumerable<WebApplication1.ViewModels.JournalViewModel>
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>ChildAction_ListJ</title>
+</head>
+<body>
+    <table class="table table-hover table-bordered">
+        <tr>
+        <th>#</th>
+            <th>
+                @Html.DisplayNameFor(model => model.jType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Remark)
+            </th>
+
+        </th>
+    @{ var i = 1;}
+    @foreach (var item in Model) {
+        <tr>
+            <td>@(i)</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.jType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Remark)
+            </td>
+        </tr>
+        i++;
+    }
+    
+    </table>
+</body>
+</html>
