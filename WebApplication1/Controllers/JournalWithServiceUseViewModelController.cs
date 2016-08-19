@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebApplication1.Models;
 using WebApplication1.Repositories;
 using WebApplication1.Service;
 using WebApplication1.ViewModels;
@@ -22,7 +23,11 @@ namespace WebApplication1.Controllers
         public ActionResult Index()
         {
             var journal = _journalSvc.Lookup();
-            return View(journal);
+            var mymodel_ = new JournalViewModel();
+            mymodel_.jType = JournalType.支出;
+            ViewBag.JournalList = journal;
+            return View(mymodel_);
+            //return PartialView("_JournalList", journal);
         }
         public ActionResult Create()
         {
@@ -33,15 +38,18 @@ namespace WebApplication1.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Amount,Date,Remark,jType")] JournalViewModel journal)
+        public ActionResult Index([Bind(Include = "jType,Amount,Date,Remark")] JournalViewModel journal)
         {
             if (ModelState.IsValid)
             {
                 _journalSvc.Add(journal);
                 //_logSvc.Add(order.FirstName, order.LastName, order.Email, order.Id);
                 _journalSvc.Save();
-
-                return RedirectToAction("Index");
+                var journals = _journalSvc.Query(d=>d.Amounttt ==journal.Amount & d.Dateee==journal.Date & d.Remarkkk == journal.Remark);
+                ViewBag.JournalList = journals;
+                //return RedirectToAction("Index");
+                return View();
+                //return PartialView("_JournalList", journals);
             }
             var result = new JournalViewModel()
             {

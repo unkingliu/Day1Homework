@@ -1,0 +1,53 @@
+﻿@model IEnumerable<WebApplication1.ViewModels.JournalViewModel>
+@{
+    Layout = null;
+}
+<div id="ajax">
+    <table class="table">
+        <tr>
+            <th>#</th>
+            <th>
+                @Html.DisplayNameFor(model => model.jType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Remark)
+            </th>
+            <th></th>
+        </tr>
+        @{ var i = 1;}
+        @*{ var journalCol = (IEnumerable<WebApplication1.ViewModels.JournalViewModel>)ViewBag.JournalList; }*@
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@(i)</td>
+                <td>
+                    <font color="@(item.jType >0 ? "red":":blue")">
+                        @Html.DisplayFor(modelItem => item.jType)
+                    </font>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Remark)
+                </td>
+                <td>
+                    @*Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
+                </td>
+            </tr>
+            i++;
+        }
+    </table>
+</div>

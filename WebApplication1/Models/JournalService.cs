@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using WebApplication1.Models;
 using WebApplication1.Repositories;
@@ -30,7 +31,6 @@ namespace WebApplication1.Service
             return result;
         }
 
-
         public void Add(JournalViewModel journal)
         {
             var result = new AccountBook()
@@ -52,6 +52,20 @@ namespace WebApplication1.Service
         public void Save()
         {
             _journalRep.Commit();
+        }
+
+        public IEnumerable<JournalViewModel>Query(Expression<Func<AccountBook, bool>> filter)
+        {
+            var source = _journalRep.Query(filter);
+            var result = source.Select(d => new JournalViewModel()
+            {
+                jType = (d.Categoryyy == 0 ? JournalType.支出 :
+                                JournalType.收入),
+                Amount = d.Amounttt,
+                Date = d.Dateee,
+                Remark = d.Remarkkk
+            }).ToList();
+            return result;
         }
     }
 }
