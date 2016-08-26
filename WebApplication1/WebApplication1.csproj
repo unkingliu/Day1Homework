@@ -202,6 +202,7 @@
     <Compile Include="Controllers\JournalController.cs" />
     <Compile Include="Controllers\JournalWithServiceUseViewModelController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Filters\DayRangeAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

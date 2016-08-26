@@ -20,6 +20,7 @@ namespace WebApplication1.Controllers
             _journalSvc = new JournalService(unitOfWork);
             //_logSvc = new LogService(unitOfWork);
         }
+        [AcceptVerbs(HttpVerbs.Get)]
         public ActionResult Index()
         {
             var journal = _journalSvc.Lookup();
@@ -28,6 +29,7 @@ namespace WebApplication1.Controllers
             ViewBag.JournalList = journal;
             return View(mymodel_);
             //return PartialView("_JournalList", journal);
+            //return RedirectToAction("JournalList", journal);
         }
         public ActionResult Create()
         {
@@ -45,11 +47,12 @@ namespace WebApplication1.Controllers
                 _journalSvc.Add(journal);
                 //_logSvc.Add(order.FirstName, order.LastName, order.Email, order.Id);
                 _journalSvc.Save();
-                var journals = _journalSvc.Query(d=>d.Amounttt ==journal.Amount & d.Dateee==journal.Date & d.Remarkkk == journal.Remark);
-                ViewBag.JournalList = journals;
-                //return RedirectToAction("Index");
-                return View();
-                //return PartialView("_JournalList", journals);
+                var journals = _journalSvc.Query(d => d.Amounttt == journal.Amount & d.Dateee == journal.Date & d.Remarkkk == journal.Remark);
+                ////ViewBag.JournalList = journals;
+                //return RedirectToAction("_JournalList", journals);
+                return View("_JournalList", journals);
+                //return View();
+
             }
             var result = new JournalViewModel()
             {
@@ -60,5 +63,15 @@ namespace WebApplication1.Controllers
             };
             return View(result);
         }
+        public ActionResult JournalList()
+        {
+            var journal = _journalSvc.Lookup();
+            return View("_JournalList", journal);
+        }
+        public ActionResult JournalListxx(IEnumerable<WebApplication1.ViewModels.JournalViewModel> journal)
+        {
+            return View("_JournalList", journal);
+        }
+
     }
 }

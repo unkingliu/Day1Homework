@@ -8,92 +8,51 @@
 <h2>Index</h2>
 
 <div class="well">
-@*using (Ajax.BeginForm(new AjaxOptions() { UpdateTargetId = "ajax" }))*@
-@using (Html.BeginForm())
-{
-                @Html.AntiForgeryToken()
-                <div class=form-horizontal>
-        <div class="form-group">
-            @Html.Label("類別", new { @class = "col-sm-2 control-label" })
-            <div class="col-sm-10">
-                @Html.EnumDropDownListFor(d=>d.jType, "請選擇", new { @class = "form-control" })
+    @*using (Html.BeginForm())*@
+    @using (Ajax.BeginForm(new AjaxOptions() { HttpMethod = "POST", Confirm = "確定要寫入記帳本?", UpdateTargetId = "ajaxlist" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class=form-horizontal>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.Label("類別", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.EnumDropDownListFor(d => d.jType, "請選擇", new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("金額", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(d => d.Amount, new { @class = "form-control", @placeholder = "金額" })
+                    @Html.ValidationMessageFor(d => d.Amount, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("日期", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextBoxFor(d => d.Date, new { @class = "form-control", @placeholder = "日期" })
+                    @Html.ValidationMessageFor(d => d.Date, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.Label("備註", new { @class = "col-sm-2 control-label" })
+                <div class="col-sm-10">
+                    @Html.TextAreaFor(d => d.Remark, new { maxlength = 100, @class = "form-control" })
+                    @Html.ValidationMessageFor(d => d.Remark, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-8 col-sm-4">
+                    <input type="submit" value="送出" class="btn btn-default" />
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            @Html.Label("金額", new { @class = "col-sm-2 control-label" })
-            <div class="col-sm-10">
-                @Html.EditorFor(d => d.Amount, new { @class = "form-control", @placeholder = "金額" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.Label("日期", new { @class = "col-sm-2 control-label" })
-            <div class="col-sm-10">
-                @Html.EditorFor(d=>d.Date, new { @class = "form-control", @placeholder = "日期" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.Label("備註", new { @class = "col-sm-2 control-label" })
-            <div class="col-sm-10">
-                @Html.TextAreaFor(d=>d.Remark, new { @class = "form-control" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-8 col-sm-4">
-                <input type="submit" value="送出" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-    @ViewBag.Message
-}
+        @ViewBag.Message
+    }
 </div>
-@*Html.Partial("_JournalList")*@
+<div id="ajaxlist">
+    @Html.Action("JournalList")
+</div>
 <p>
     @*Html.ActionLink("Create New", "Create")*@
 </p>
-<table class="table">
-    <tr>
-        <th>#</th>
-        <th>
-            @Html.DisplayNameFor(model => model.jType)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Amount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Date)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Remark)
-        </th>
-        <th></th>
-    </tr>
-    @{ var i = 1;}
-    @{ var journalCol = (IEnumerable<WebApplication1.ViewModels.JournalViewModel>)ViewBag.JournalList; }
-
-    @foreach (var item in journalCol)
-    {
-        <tr>
-            <td>@(i)</td>
-            <td>
-                <font color="@(item.jType >0 ? "red":":blue")">
-                    @Html.DisplayFor(modelItem => item.jType)
-                </font>
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Amount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Remark)
-            </td>
-            <td>
-                @*Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })*@
-            </td>
-        </tr>
-        i++;
-    }
-</table>
