@@ -44,10 +44,11 @@ namespace WebApplication1.Controllers
         {
             if (ModelState.IsValid)
             {
-                _journalSvc.Add(journal);
+                var addGUID= _journalSvc.Add(journal);
                 //_logSvc.Add(order.FirstName, order.LastName, order.Email, order.Id);
                 _journalSvc.Save();
-                var journals = _journalSvc.Query(d => d.Amounttt == journal.Amount & d.Dateee == journal.Date & d.Remarkkk == journal.Remark);
+                //var journals = _journalSvc.Query(d => d.Amounttt == journal.Amount & d.Dateee == journal.Date & d.Remarkkk == journal.Remark);
+                var journals = _journalSvc.Query(d=>d.Id ==addGUID);
                 ////ViewBag.JournalList = journals;
                 //return RedirectToAction("_JournalList", journals);
                 return View("_JournalList", journals);

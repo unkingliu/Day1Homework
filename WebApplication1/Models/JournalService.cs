@@ -31,7 +31,7 @@ namespace WebApplication1.Service
             return result;
         }
 
-        public void Add(JournalViewModel journal)
+        public Guid Add(JournalViewModel journal)
         {
             var result = new AccountBook()
             {
@@ -42,6 +42,7 @@ namespace WebApplication1.Service
                 Remarkkk = journal.Remark
             };
             Add(result);
+            return result.Id;
         }
 
         public void Add(AccountBook acctbook)
